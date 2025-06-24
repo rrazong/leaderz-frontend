@@ -7,7 +7,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/tournament/:id" element={<TournamentPage />} />
-        <Route path="/" element={<Navigate to="/tournament/SD2025" replace />} />
+        <Route path="/" element={<Navigate to="/tournament/1000" replace />} />
       </Routes>
     </Router>
   );
