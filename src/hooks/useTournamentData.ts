@@ -48,13 +48,25 @@ export const useTournamentData = (tournamentNumber: string | undefined) => {
     eventSource.onmessage = (event) => {
       try {
         const data = JSON.parse(event.data);
+        console.log('SSE message received:', data);
         
         if (data.type === 'leaderboard_update') {
           // Refetch leaderboard data when scores change
+          console.log('Updating leaderboard...');
           fetchTournamentData();
-        } else if (data.type === 'chat_message') {
+        } else if (data.type === 'chat_update') {
           // Add new chat message to the list
-          setChatMessages((prevMessages) => [data.message, ...prevMessages]);
+          console.log('Updating chat with new message:', data.newMessage);
+          if (data.newMessage) {
+            setChatMessages((prevMessages) => [data.newMessage, ...prevMessages]);
+          } else {
+            // If no specific message provided, refetch all chat messages
+            fetchChatMessages();
+          }
+        } else if (data.type === 'team_score_update') {
+          // Refetch leaderboard data when team scores change
+          console.log('Updating leaderboard due to team score change...');
+          fetchTournamentData();
         }
       } catch (err) {
         console.error('Error parsing SSE message:', err);
