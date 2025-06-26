@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { supabase } from '../lib/supabase';
 import type { Tournament, LeaderboardData, ChatMessage } from '../types';
 
 // API base URL - will be set via environment variables in production
@@ -42,75 +41,38 @@ export const useTournamentData = (tournamentNumber: string | undefined) => {
     fetchTournamentData();
     fetchChatMessages();
 
-    // Set up Supabase Realtime subscriptions with unique channel names
-    const teamScoresChannel = supabase.channel(`team_scores_${tournamentNumber}`);
-    const chatMessagesChannel = supabase.channel(`chat_messages_${tournamentNumber}`);
+    // Set up Server-Sent Events for real-time updates
+    const eventSource = new EventSource(`${API_BASE_URL}/sse/${tournamentNumber}`);
 
-    // Subscribe to team_scores changes for leaderboard updates
-    teamScoresChannel
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'team_scores'
-        },
-        async () => {
-          console.log('teamScoresSubscription', tournamentNumber);
+    eventSource.onmessage = (event) => {
+      try {
+        const data = JSON.parse(event.data);
+        
+        if (data.type === 'leaderboard_update') {
           // Refetch leaderboard data when scores change
-          try {
-            const response = await axios.get(`${API_BASE_URL}/leaderboard/${tournamentNumber}`);
-            setLeaderboardData({
-              leaderboard: response.data.leaderboard,
-              pars: response.data.pars,
-            });
-          } catch (err) {
-            console.error('Error refetching leaderboard:', err);
-          }
-        }
-      )
-      .subscribe();
-
-    // Subscribe to chat_messages changes
-    chatMessagesChannel
-      .on(
-        'postgres_changes',
-        {
-          event: 'INSERT',
-          schema: 'public',
-          table: 'chat_messages'
-        },
-        async (payload) => {
-          console.log('chatMessagesSubscription', payload);
+          fetchTournamentData();
+        } else if (data.type === 'chat_message') {
           // Add new chat message to the list
-          try {
-            const { data: newMessage } = await supabase
-              .from('chat_messages')
-              .select(`
-                *,
-                teams!inner(name)
-              `)
-              .eq('id', payload.new.id)
-              .single();
-
-            if (newMessage) {
-              const messageWithTeamName = {
-                ...newMessage,
-                team_name: newMessage.teams.name
-              };
-              setChatMessages((prevMessages) => [messageWithTeamName, ...prevMessages]);
-            }
-          } catch (err) {
-            console.error('Error fetching new chat message:', err);
-          }
+          setChatMessages((prevMessages) => [data.message, ...prevMessages]);
         }
-      )
-      .subscribe();
+      } catch (err) {
+        console.error('Error parsing SSE message:', err);
+      }
+    };
+
+    eventSource.onerror = (error) => {
+      console.error('SSE connection error:', error);
+      // Attempt to reconnect after a delay
+      setTimeout(() => {
+        if (eventSource.readyState === EventSource.CLOSED) {
+          console.log('Attempting to reconnect SSE...');
+        }
+      }, 5000);
+    };
 
     // Cleanup function
     return () => {
-      teamScoresChannel.unsubscribe();
-      chatMessagesChannel.unsubscribe();
+      eventSource.close();
     };
   }, [tournamentNumber]);
 
