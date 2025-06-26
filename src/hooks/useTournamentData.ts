@@ -3,7 +3,8 @@ import axios from 'axios';
 import type { Tournament, LeaderboardData, ChatMessage } from '../types';
 
 // API base URL - will be set via environment variables in production
-const API_BASE_URL = process.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
+const API_BASE_URL = 'https://leaderz-backend-production.up.railway.app/api';
+// const API_BASE_URL = process.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
 
 export const useTournamentData = (tournamentNumber: string | undefined) => {
   const [tournament, setTournament] = useState<Tournament | null>(null);
