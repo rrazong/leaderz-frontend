@@ -40,3 +40,59 @@
 .read-the-docs {
   color: #888;
 }
+
+body {
+  background: #181818;
+  color: #fff;
+  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  margin: 0;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #ffe14d;
+  margin: 0;
+}
+
+header {
+  background: #175c2c;
+  color: #ffe14d;
+  border-bottom: 2px solid #ffe14d;
+}
+
+.card {
+  background: #222;
+  border-radius: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+button, .btn {
+  background: #ffe14d;
+  color: #175c2c;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.75em 1.5em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+button:hover, .btn:hover {
+  background: #fff6b0;
+}
+
+::-webkit-scrollbar {
+  height: 8px;
+  background: #222;
+}
+::-webkit-scrollbar-thumb {
+  background: #175c2c;
+  border-radius: 4px;
+}
+
+@media (max-width: 600px) {
+  .card {
+    padding: 1rem;
+  }
+}
