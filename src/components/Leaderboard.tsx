@@ -54,7 +54,7 @@ const Leaderboard: React.FC<LeaderboardProps> = ({ data }) => {
                 <th
                   key={hole}
                   className="p-2 border-r border-[#ffe14d] border-b border-b-[#ffe14d]"
-                  style={{ minWidth: 48, borderBottom: '1px solid #ffe14d' }}
+                  style={{ width: 30, minWidth: 30, maxWidth: 30, borderBottom: '1px solid #ffe14d' }}
                 >
                   {hole}
                 </th>
@@ -67,7 +67,7 @@ const Leaderboard: React.FC<LeaderboardProps> = ({ data }) => {
               <th className="sticky left-0 bg-[#175c2c] p-2 border-r border-[#ffe14d] z-10 w-16"></th>
               <th className="sticky left-16 bg-[#175c2c] p-2 border-r border-[#ffe14d] z-10 w-48">Par</th>
               {holes.map(hole => (
-                <th key={hole} className="p-2 border-r border-[#ffe14d]" style={{ borderTop: 'none' }}>
+                <th key={hole} className="p-2 border-r border-[#ffe14d]" style={{ width: 30, minWidth: 30, maxWidth: 30, borderTop: 'none' }}>
                   {pars[hole]}
                 </th>
               ))}
@@ -99,6 +99,7 @@ const Leaderboard: React.FC<LeaderboardProps> = ({ data }) => {
                     <td
                       key={hole}
                       className={`p-2 border-r border-[#ffe14d] text-center ${getScoreColor(team.scores?.[hole], pars[hole])}`}
+                      style={{ width: 30, minWidth: 30, maxWidth: 30 }}
                     >
                       {team.scores?.[hole] || '-'}
                     </td>
@@ -116,7 +117,9 @@ const Leaderboard: React.FC<LeaderboardProps> = ({ data }) => {
             min-width: 600px;
           }
           th, td {
-            min-width: 48px;
+            min-width: 30px;
+            width: 30px;
+            max-width: 30px;
           }
           .sticky.left-0, .sticky.left-16 {
             position: sticky;
@@ -130,7 +133,9 @@ const Leaderboard: React.FC<LeaderboardProps> = ({ data }) => {
             width: 100% !important;
           }
           th, td {
-            min-width: unset !important;
+            min-width: 30px !important;
+            width: 30px !important;
+            max-width: 30px !important;
           }
         }
       `}</style>

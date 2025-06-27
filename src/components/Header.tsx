@@ -10,10 +10,10 @@ const Header: React.FC<HeaderProps> = ({ tournament }) => {
     <header className="bg-gray-800 text-white p-4">
       <div className="flex justify-between items-start">
         <div className="flex-1">
-          <h1 className="text-2xl font-bold mb-1">
+          <h1 className="text-xl font-bold mb-0">
             {tournament?.name || 'Tournament'}
           </h1>
-          <p className="text-sm text-gray-300">Powered by Leaderz</p>
+          <h4 className="text-sm text-gray-300">Powered by Leaderz</h4>
         </div>
         <button className="text-white ml-4">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
