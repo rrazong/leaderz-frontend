@@ -16,7 +16,7 @@ const TournamentPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-100">
       <Header tournament={tournament} />
-      <main className="container mx-auto">
+      <main className="w-full px-8 py-0">
         <Leaderboard data={leaderboardData} />
         <Chat messages={chatMessages} />
       </main>
