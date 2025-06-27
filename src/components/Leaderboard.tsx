@@ -39,14 +39,14 @@ const Leaderboard: React.FC<LeaderboardProps> = ({ data }) => {
           <thead className="bg-[#175c2c] text-[#ffe14d]">
             <tr style={{ borderBottom: '4px solid #ffe14d' }}>
               <th
-                className="sticky left-0 bg-[#175c2c] p-2 border-r border-[#ffe14d] z-10"
-                style={{ minWidth: 60, width: 60 }}
+                className="sticky left-0 bg-[#175c2c] p-2 border-r border-[#ffe14d] z-10 w-16"
+                style={{ minWidth: 40 }}
               >
                 Place
               </th>
               <th
-                className="sticky left-16 bg-[#175c2c] p-2 border-r border-[#ffe14d] z-10"
-                style={{ minWidth: 120, width: 120 }}
+                className="sticky left-16 bg-[#175c2c] p-2 border-r border-[#ffe14d] z-10 w-48"
+                style={{ minWidth: 120 }}
               >
                 Team
               </th>
@@ -54,20 +54,20 @@ const Leaderboard: React.FC<LeaderboardProps> = ({ data }) => {
                 <th
                   key={hole}
                   className="p-2 border-r border-[#ffe14d] border-b border-b-[#ffe14d]"
-                  style={{ width: 30, minWidth: 30, maxWidth: 30, borderBottom: '1px solid #ffe14d' }}
+                  style={{ width: 20, minWidth: 20, maxWidth: 20, borderBottom: '1px solid #ffe14d' }}
                 >
                   {hole}
                 </th>
               ))}
-              <th className="p-2" style={{ minWidth: 60, width: 60 }}>
+              <th className="p-2" style={{ minWidth: 40 }}>
                 Score
               </th>
             </tr>
             <tr>
-              <th className="sticky left-0 bg-[#175c2c] p-2 border-r border-[#ffe14d] z-10"></th>
-              <th className="sticky left-16 bg-[#175c2c] p-2 border-r border-[#ffe14d] z-10">Par</th>
+              <th className="sticky left-0 bg-[#175c2c] p-2 border-r border-[#ffe14d] z-10 w-16"></th>
+              <th className="sticky left-16 bg-[#175c2c] p-2 border-r border-[#ffe14d] z-10 w-48">Par</th>
               {holes.map(hole => (
-                <th key={hole} className="p-2 border-r border-[#ffe14d]" style={{ width: 30, minWidth: 30, maxWidth: 30, borderTop: 'none' }}>
+                <th key={hole} className="p-2 border-r border-[#ffe14d]" style={{ width: 20, minWidth: 20, maxWidth: 20, borderTop: 'none' }}>
                   {pars[hole]}
                 </th>
               ))}
@@ -89,22 +89,22 @@ const Leaderboard: React.FC<LeaderboardProps> = ({ data }) => {
             ) : (
               leaderboard.map((team, index) => (
                 <tr key={team.team_id} className="border-t border-[#ffe14d]">
-                  <td className="sticky left-0 bg-[#222] p-2 border-r border-[#ffe14d] z-10 text-[#ffe14d] font-bold" style={{ minWidth: 60, width: 60 }}>
+                  <td className="sticky left-0 bg-[#222] p-2 border-r border-[#ffe14d] z-10 w-16 text-[#ffe14d] font-bold">
                     {index + 1}
                   </td>
-                  <td className="sticky left-16 bg-[#222] p-2 border-r border-[#ffe14d] z-10 font-semibold text-[#ffe14d]" style={{ minWidth: 120, width: 120, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  <td className="sticky left-16 bg-[#222] p-2 border-r border-[#ffe14d] z-10 w-48 font-semibold text-[#ffe14d]">
                     {team.team_name}
                   </td>
                   {holes.map(hole => (
                     <td
                       key={hole}
                       className={`p-2 border-r border-[#ffe14d] text-center ${getScoreColor(team.scores?.[hole], pars[hole])}`}
-                      style={{ width: 30, minWidth: 30, maxWidth: 30 }}
+                      style={{ width: 20, minWidth: 20, maxWidth: 20 }}
                     >
                       {team.scores?.[hole] || '-'}
                     </td>
                   ))}
-                  <td className="p-2 font-bold text-center text-[#ffe14d]" style={{ minWidth: 60, width: 60 }}>{team.total_score}</td>
+                  <td className="p-2 font-bold text-center text-[#ffe14d]">{team.total_score}</td>
                 </tr>
               ))
             )}
@@ -117,24 +117,9 @@ const Leaderboard: React.FC<LeaderboardProps> = ({ data }) => {
             min-width: 600px;
           }
           th, td {
-            min-width: 20px;
-            width: 20px;
-            max-width: 20px;
-          }
-          th:first-child, td:first-child {
-            min-width: 60px !important;
-            width: 60px !important;
-          }
-          th:nth-child(2), td:nth-child(2) {
-            min-width: 120px !important;
-            width: 120px !important;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-          }
-          th:last-child, td:last-child {
-            min-width: 60px !important;
-            width: 60px !important;
+            min-width: 30px;
+            width: 30px;
+            max-width: 30px;
           }
           .sticky.left-0, .sticky.left-16 {
             position: sticky;
@@ -148,24 +133,9 @@ const Leaderboard: React.FC<LeaderboardProps> = ({ data }) => {
             width: 100% !important;
           }
           th, td {
-            min-width: 20px !important;
-            width: 20px !important;
-            max-width: 20px !important;
-          }
-          th:first-child, td:first-child {
-            min-width: 60px !important;
-            width: 60px !important;
-          }
-          th:nth-child(2), td:nth-child(2) {
-            min-width: 120px !important;
-            width: 120px !important;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-          }
-          th:last-child, td:last-child {
-            min-width: 60px !important;
-            width: 60px !important;
+            min-width: 30px !important;
+            width: 30px !important;
+            max-width: 30px !important;
           }
         }
       `}</style>
