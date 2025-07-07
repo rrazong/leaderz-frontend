@@ -3,21 +3,20 @@ import axios from 'axios';
 import type { Tournament, LeaderboardData, ChatMessage } from '../types';
 
 // API base URL - will be set via environment variables in production
-const API_BASE_URL = 'https://leaderz-backend-production.up.railway.app/api';
-// const API_BASE_URL = process.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
 
-export const useTournamentData = (tournamentNumber: string | undefined) => {
+export const useTournamentData = (tournamentKey: string | undefined) => {
   const [tournament, setTournament] = useState<Tournament | null>(null);
   const [leaderboardData, setLeaderboardData] = useState<LeaderboardData | null>(null);
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!tournamentNumber) return;
+    if (!tournamentKey) return;
 
     const fetchTournamentData = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/leaderboard/${tournamentNumber}`);
+        const response = await axios.get(`${API_BASE_URL}/leaderboard/${tournamentKey}`);
         setTournament(response.data.tournament);
         setLeaderboardData({
           leaderboard: response.data.leaderboard,
@@ -31,7 +30,7 @@ export const useTournamentData = (tournamentNumber: string | undefined) => {
 
     const fetchChatMessages = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/chat/${tournamentNumber}`);
+        const response = await axios.get(`${API_BASE_URL}/chat/${tournamentKey}`);
         setChatMessages(response.data.data);
       } catch (err) {
         setError('Failed to fetch chat messages.');
@@ -43,7 +42,7 @@ export const useTournamentData = (tournamentNumber: string | undefined) => {
     fetchChatMessages();
 
     // Set up Server-Sent Events for real-time updates
-    const eventSource = new EventSource(`${API_BASE_URL}/sse/${tournamentNumber}`);
+    const eventSource = new EventSource(`${API_BASE_URL}/sse/${tournamentKey}`);
 
     eventSource.onmessage = (event) => {
       try {
@@ -87,7 +86,7 @@ export const useTournamentData = (tournamentNumber: string | undefined) => {
     return () => {
       eventSource.close();
     };
-  }, [tournamentNumber]);
+  }, [tournamentKey]);
 
   return { tournament, leaderboardData, chatMessages, error };
 }; 

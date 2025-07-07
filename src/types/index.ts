@@ -1,7 +1,7 @@
 export interface Tournament {
   id: string;
   name: string;
-  tournament_number: number;
+  tournament_key?: string;
   status: 'active' | 'completed' | 'cancelled';
 }
 
@@ -19,7 +19,7 @@ export interface LeaderboardData {
 
 export interface ChatMessage {
   id: string;
-  tournament_number: number;
+  tournament_key?: string;
   team_id: string;
   message: string;
   created_at: string;

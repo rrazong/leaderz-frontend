@@ -6,8 +6,14 @@ function App() {
   return (
     <Router>
       <Routes>
+        {/* Permanent redirect from old tournament number to new tournament key */}
+        <Route path="/tournament/1000" element={<Navigate to="/tournament/2GRD" replace />} />
+        
+        {/* Tournament page route */}
         <Route path="/tournament/:id" element={<TournamentPage />} />
-        <Route path="/" element={<Navigate to="/tournament/1000" replace />} />
+        
+        {/* Default redirect to tournament */}
+        <Route path="/" element={<Navigate to="/tournament/2GRD" replace />} />
       </Routes>
     </Router>
   );

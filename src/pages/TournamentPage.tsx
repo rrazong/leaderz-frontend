@@ -6,8 +6,8 @@ import Leaderboard from '../components/Leaderboard';
 import Chat from '../components/Chat';
 
 const TournamentPage: React.FC = () => {
-  const { id: tournamentNumber } = useParams<{ id: string }>();
-  const { tournament, leaderboardData, chatMessages, error } = useTournamentData(tournamentNumber);
+  const { id: tournamentKey } = useParams<{ id: string }>();
+  const { tournament, leaderboardData, chatMessages, error } = useTournamentData(tournamentKey);
 
   if (error) {
     return <div className="p-4 text-red-500">{error}</div>;
